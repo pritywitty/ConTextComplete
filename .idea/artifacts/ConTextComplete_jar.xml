@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ConTextComplete:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ConTextComplete_jar</output-path>
+    <root id="archive" name="ConTextComplete.jar">
+      <element id="module-output" name="ConTextComplete" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/../../../../../Program Files/Java/PDFToHTML.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
