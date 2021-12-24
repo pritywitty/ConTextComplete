@@ -86,6 +86,8 @@ public class Tokenizer {
 
             word = new Word(wordText, paragraphIndex, wordStart, wordEnd, sentenceNumber, punctuation); //create word instance
 
+            if(wordText.contains("<") || wordText.contains(">")){ word.angleBrackets = true; }
+
             //set ArrayList of words to new or existing list of instances of the word
             sameWords = (words.containsKey(wordText) ? words.get(wordText) : new ArrayList<>());
             sameWords.add(word); //add current word to list
@@ -123,7 +125,7 @@ public class Tokenizer {
     public static class Word {
         String textOfWord;
         int paragraph, positionStart, positionEnd, documentIndex, sentenceIndex;
-        boolean highlightFlag = false, punctuation;
+        boolean highlightFlag = false, punctuation, angleBrackets = false;
         Color highlightColor = Color.white;
 
         /** @param word  text of word

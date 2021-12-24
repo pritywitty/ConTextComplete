@@ -108,13 +108,29 @@ public class Export {
             }
 
             if (word.highlightFlag){
+
                 if(word.highlightColor == null) { word.highlightColor = Color.white; }
                 String color = String.format("<span style='background-color:#%02x%02x%02x'>",
                         word.highlightColor.getRed(), word.highlightColor.getGreen(), word.highlightColor.getBlue()
                 );
 
-                contentBuilder.insert(word.positionEnd, "</span>").insert(word.positionStart, color);
+                if(word.angleBrackets){
+                    String wordFix = word.textOfWord;
+                    wordFix = wordFix.replace("<", "&lt");
+                    wordFix = wordFix.replace(">", "&gt");
+                    wordFix = "</span>" + wordFix + color;
+                    contentBuilder.replace(word.positionStart, word.positionEnd, wordFix);
+                }
+                else { contentBuilder.insert(word.positionEnd, "</span>").insert(word.positionStart, color); }
 
+            }
+
+            else if(word.angleBrackets){
+                String wordFix = word.textOfWord;
+                wordFix = wordFix.replace("<", "&lt");
+                wordFix = wordFix.replace(">", "&gt");
+                wordFix = "</span>" + wordFix;
+                contentBuilder.replace(word.positionStart, word.positionEnd, wordFix);
             }
         }
 
