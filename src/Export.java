@@ -35,13 +35,57 @@ public class Export {
                 + "<title>" + fileName + "</title></head><body><div class='container mt-4'></p>";
 
         originalContent = o;
+    }
 
+    /**@param textOfFile text taken from displayed text area to be exported */
+    public Export(String textOfFile){
+        tokenizer = new Tokenizer("");
+        htmlContent = "";
+        originalContent = textOfFile;
+    }
+
+    public boolean exportText() {
+        try {
+
+            //name the file
+            String path = createPath(".txt");
+
+            if (!path.equals("./tmp/-1.txt")) {
+
+                FileWriter fileWriter = new FileWriter(path);
+                fileWriter.write(originalContent);
+                fileWriter.close();
+
+                Desktop.getDesktop().open(new File(path));
+
+            }
+        } catch (IOException e) {
+            new ErrorClass(ErrorClass.ErrorType.UNKNOWN_ERROR, "WARNING", e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    private String createPath(String fileType) {
+        String currentPath = System.getProperty("user.dir").replace("\\", "/");
+        String directoryPath = currentPath + "/tmp/";
+        String path = directoryPath + new ErrorClass(ErrorClass.ErrorType.GET_TEXT,
+                "Export File Name", "User defined file name?").returnString + fileType;
+        File dir  = new File(directoryPath);
+
+        if(!dir.exists()) {
+            dir.mkdir();
+        }
+
+        return path;
+    }
+
+    public boolean exportHtml() {
         try {
             //create the temp file and directory
-            String path =
-                    "./tmp/" + new ErrorClass(ErrorClass.ErrorType.GET_TEXT,
-                            "Export File Name", "User defined file name?").returnString + ".html";
-            if (!path.equals("./tmp/-1.html")) {
+            String path = createPath(".html");
+
+            if (!path.endsWith("./tmp/-1.html")) {
                 File tempFile = new File(path);
 
                 //after the directory/files are created, generate the html
@@ -56,39 +100,15 @@ public class Export {
 
                 Desktop.getDesktop().open(new File(path));
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             new ErrorClass(ErrorClass.ErrorType.UNKNOWN_ERROR, "WARNING", e.getMessage());
+            return false;
         }
-    }
-
-    /**@param textOfFile text taken from displayed text area to be exported */
-    public Export(String textOfFile){
-        tokenizer = new Tokenizer("");
-        htmlContent = "";
-        originalContent = textOfFile;
-        try {
-
-            //name the file
-            String path = "./tmp/" + new ErrorClass(ErrorClass.ErrorType.GET_TEXT,
-                    "Export File Name", "User defined file name?").returnString + ".txt";
-
-            if (!path.equals("./tmp/-1.txt")) {
-
-                FileWriter fileWriter = new FileWriter(path);
-                fileWriter.write(originalContent);
-                fileWriter.close();
-
-                Desktop.getDesktop().open(new File(path));
-
-            }
-        } catch (IOException e) {
-            new ErrorClass(ErrorClass.ErrorType.UNKNOWN_ERROR, "WARNING", e.getMessage());
-        }
-
+        return true;
     }
 
     /** @return  string of displayed text with HTML tags for highlights*/
-    public String getHtml() {
+    private String getHtml() {
         final StringBuilder contentBuilder = new StringBuilder(originalContent);
 
         int currentParagraph =

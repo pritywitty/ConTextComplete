@@ -160,11 +160,19 @@ public class Main extends JFrame {
 
             expHTML = new JMenuItem("HTML");
             expHTML.setMnemonic(KeyEvent.VK_H);
-            expHTML.addActionListener(e -> new Export(tokenizer, "Exported Document", textEditor.jTextPane.getText()));
+            expHTML.addActionListener(e -> {
+                Export exporter = new Export(tokenizer, "Exported Document", textEditor.jTextPane.getText());
+                //returns false if there is an error.
+                //todo - notify user if there is an error
+                exporter.exportHtml();
+            });
 
             expTXT = new JMenuItem("TXT");
             expTXT.setMnemonic(KeyEvent.VK_T);
-            expTXT.addActionListener(e -> new Export(textEditor.jTextPane.getText()));
+            expTXT.addActionListener(e -> {
+                Export exporter = new Export(textEditor.jTextPane.getText());
+                exporter.exportText();
+            });
 
             exportSubMenu.add(expHTML);
             exportSubMenu.add(expTXT);
