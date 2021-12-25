@@ -44,6 +44,10 @@ public class Export {
         originalContent = textOfFile;
     }
 
+    /**
+     * Export the document to a text file
+     * @return true if the export is successful
+     */
     public boolean exportText() {
         try {
 
@@ -66,6 +70,11 @@ public class Export {
         return true;
     }
 
+    /**
+     * Create the directory and path of the file to be exported
+     * @param fileType ex: .txt .html
+     * @return the path for the file to export, including the file name and extension
+     */
     private String createPath(String fileType) {
         String currentPath = System.getProperty("user.dir").replace("\\", "/");
         String directoryPath = currentPath + "/tmp/";
@@ -80,6 +89,10 @@ public class Export {
         return path;
     }
 
+    /**
+     * Export the document to html
+     * @return true if the export is successful
+     */
     public boolean exportHtml() {
         try {
             //create the temp file and directory
